@@ -37,14 +37,14 @@ class DateTimeTests {
 
 	@Test
 	void canadaCurrentTimeTest() {
-//		TODO display current date & time in all time zones related to Canada
-//		Date / Time(HH:mm) / Time Zone name
-		displayCurrentTime("Canada/Mountain");
+		ZoneId.getAvailableZoneIds().stream().filter(timeZoneCanada -> timeZoneCanada.contains("Canada"))
+				.forEach(this::displayCurrentTime);
 	}
 
 	void displayCurrentTime(String zoneName) {
-//		ZoneId.getAvailableZoneIds().forEach(System.out::println);
-		System.out.println(ZonedDateTime.ofInstant(Instant.now(), ZoneId.of(zoneName)));
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMMM YYYY HH:mm ");
+		ZonedDateTime currentTime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of(zoneName));
+		System.out.println(currentTime.format(dtf) + zoneName.replace("Canada/", "Canada: "));
 	}
 
 }
