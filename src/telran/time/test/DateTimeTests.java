@@ -29,7 +29,7 @@ class DateTimeTests {
 		TemporalAdjuster fr13 = new NextFriday13();
 		ZonedDateTime zdt = ZonedDateTime.now();
 		ZonedDateTime fr13Expected = ZonedDateTime.of(2023, 10, 13, 0, 0, 0, 0, ZoneId.systemDefault());
-		assertEquals(fr13Expected, zdt.with(fr13));
+		assertEquals(fr13Expected.toLocalDate(), zdt.with(fr13).toLocalDate());
 		LocalDate fr13Expected2 = LocalDate.of(2024, 9, 13);
 		LocalDate ld = LocalDate.of(2023, 10, 13);
 		assertEquals(fr13Expected2, ld.with(fr13));
