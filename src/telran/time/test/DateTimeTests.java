@@ -33,18 +33,21 @@ class DateTimeTests {
 		LocalDate fr13Expected2 = LocalDate.of(2024, 9, 13);
 		LocalDate ld = LocalDate.of(2023, 10, 13);
 		assertEquals(fr13Expected2, ld.with(fr13));
+		assertThrowsExactly(UnsupportedTemporalTypeException.class, () -> LocalTime.now().with(fr13));
 	}
 
 	@Test
-	void canadaCurrentTimeTest() {
-		ZoneId.getAvailableZoneIds().stream().filter(timeZoneCanada -> timeZoneCanada.contains("Canada"))
-				.forEach(this::displayCurrentTime);
+	void canadaCurrentTime() {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY / HH:mm / zzzz");
+		for (String zoneName : ZoneId.getAvailableZoneIds()) {
+			if (zoneName.contains("Canada")) {
+				displayCurrentTime(zoneName, dtf);
+			}
+		}
 	}
 
-	void displayCurrentTime(String zoneName) {
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMMM YYYY HH:mm ");
-		ZonedDateTime currentTime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of(zoneName));
-		System.out.println(currentTime.format(dtf) + zoneName.replace("Canada/", "Canada: "));
+	void displayCurrentTime(String zoneName, DateTimeFormatter dtf) {
+		System.out.println(ZonedDateTime.ofInstant(Instant.now(), ZoneId.of(zoneName)).format(dtf));
 	}
 
 }
